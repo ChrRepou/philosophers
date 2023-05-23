@@ -1,18 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: crepou <crepou@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/23 17:44:35 by crepou            #+#    #+#             */
-/*   Updated: 2023/05/23 17:45:22 by crepou           ###   ########.fr       */
+/*   Created: 2023/05/23 16:12:18 by crepou            #+#    #+#             */
+/*   Updated: 2023/05/23 16:15:07 by crepou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	main(int argc, char *argv[])
+long long	get_curr_time(void)
 {
-	return (philosophers(argv, argc));
+	long long		time_in_mill;
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	time_in_mill = (tv.tv_sec) * 1000LL + (tv.tv_usec) / 1000 ;
+	return (time_in_mill);
+}
+
+long long	time_diff(long long previous)
+{
+	long long	curr_time;
+
+	curr_time = get_curr_time();
+	return (curr_time - previous);
 }
