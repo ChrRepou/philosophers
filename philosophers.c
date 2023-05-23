@@ -21,6 +21,8 @@ int	philosophers(char *argv[], int argc)
 		return (-1);
 	while(!info->philo_is_dead)
 	{
+		//
+		
 		action_print(info, &info->philos[0], "is eating", get_curr_time());
 		info->philo_is_dead = 1;
 	}

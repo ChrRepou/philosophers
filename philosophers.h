@@ -34,12 +34,15 @@ typedef struct s_info
 	t_philosopher	*philos;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	printing;
+	pthread_mutex_t	eating;
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				time_to_die;
 	int				number_of_meals;
 	int				number_of_philos;
 	int				philo_is_dead;
+	long long		init_time;
+	int				all_satisfied;
 }				t_info;
 
 int			philosophers(char *argv[], int argc);
@@ -52,5 +55,7 @@ void		action_print(t_info *info, t_philosopher *philosopher, char *str, long lon
 int			join_threads(t_info *info);
 int			destroy_threads(t_info *info);
 int			destroy_mutexes(t_info *info);
+void		eat(t_info *info, t_philosopher *philosopher);
+void		eat(t_info *info, t_philosopher *philosopher);
 
 #endif

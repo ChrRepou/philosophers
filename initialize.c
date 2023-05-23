@@ -30,6 +30,15 @@ int	create_mutex(t_info *info)
 	return (0);
 }
 
+void	initialize_philo(t_philosopher *philo, int i, int number_of_philos)
+{
+	philo->left_fork = i;
+	philo->right_fork = (i + 1) % number_of_philos;
+	philo->times_ate = 0;
+	philo->id = i;
+	philo->last_time_ate = get_curr_time();
+}
+
 int	create_philosophers(t_info *info)
 {
 	int	philos;
@@ -40,6 +49,7 @@ int	create_philosophers(t_info *info)
 	info->philos = (t_philosopher *)malloc(sizeof(t_philosopher) * info->number_of_philos);
 	while (++i < philos)
 	{
+		initialize_philo(&info->philos[i], i, info->number_of_philos);
 		if (pthread_create(&info->philos[i].philosopher, NULL, &actions, info))
 			return (1);
 	}
