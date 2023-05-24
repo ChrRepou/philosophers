@@ -17,14 +17,12 @@ int	philosophers(char *argv[], int argc)
 	t_info	*info;
 
 	info = (t_info *)malloc(sizeof(t_info));
-	if (!info || fill_info(argc, argv, info) || join_threads(info))
+	if (!info || fill_info(argc, argv, info))
 		return (-1);
-	while(!info->philo_is_dead)
-	{
-		//
-		
-		action_print(info, &info->philos[0], "is eating", get_curr_time());
-		info->philo_is_dead = 1;
-	}
+	check_if_dead(info);
+	if (join_threads(info))
+		return (-1);
+	if (destroy_mutexes(info))
+		return (-1);
 	return (0);
 }

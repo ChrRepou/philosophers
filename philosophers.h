@@ -45,6 +45,12 @@ typedef struct s_info
 	int				all_satisfied;
 }				t_info;
 
+typedef struct s_args
+{
+	int		id;
+	t_info	*info;
+}			t_args;
+
 int			philosophers(char *argv[], int argc);
 int			fill_info(int argc, char *argv[], t_info *info);
 int			create_mutex(t_info *info);
@@ -56,6 +62,7 @@ int			join_threads(t_info *info);
 int			destroy_threads(t_info *info);
 int			destroy_mutexes(t_info *info);
 void		eat(t_info *info, t_philosopher *philosopher);
-void		eat(t_info *info, t_philosopher *philosopher);
+void		check_if_dead(t_info *info);
+int			ft_atoi(const char *str);
 
 #endif

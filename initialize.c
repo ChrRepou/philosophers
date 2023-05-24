@@ -27,6 +27,8 @@ int	create_mutex(t_info *info)
 	}
 	if (pthread_mutex_init(&info->printing, NULL))
 		return (1);
+	if (pthread_mutex_init(&info->eating, NULL))
+		return (1);
 	return (0);
 }
 
@@ -41,16 +43,20 @@ void	initialize_philo(t_philosopher *philo, int i, int number_of_philos)
 
 int	create_philosophers(t_info *info)
 {
-	int	philos;
-	int	i;
+	int		philos;
+	int		i;
+	t_args	*args;
 
 	philos = info->number_of_philos;
 	i = -1;
-	info->philos = (t_philosopher *)malloc(sizeof(t_philosopher) * info->number_of_philos);
+	info->philos = (t_philosopher *)malloc(sizeof(t_philosopher) * philos);
+	args = (t_args *)malloc(sizeof(t_args) * philos);
 	while (++i < philos)
 	{
+		args[i].id = i;
 		initialize_philo(&info->philos[i], i, info->number_of_philos);
-		if (pthread_create(&info->philos[i].philosopher, NULL, &actions, info))
+		args[i].info = info;
+		if (pthread_create(&info->philos[i].philosopher, NULL, &actions, &args[i]))
 			return (1);
 	}
 	return (0);
@@ -58,18 +64,21 @@ int	create_philosophers(t_info *info)
 
 int	fill_info(int argc, char *argv[], t_info *info)
 {
-	info->time_to_die = atoi(argv[2]);
-	info->time_to_eat = atoi(argv[3]);
-	info->time_to_sleep = atoi(argv[4]);
-	info->number_of_philos = atoi(argv[1]);
+	info->time_to_die = ft_atoi(argv[2]);
+	info->time_to_eat = ft_atoi(argv[3]);
+	info->time_to_sleep = ft_atoi(argv[4]);
+	info->number_of_philos = ft_atoi(argv[1]);
 	info->philo_is_dead = 0;
-	if (argc == 6)
-		info->number_of_meals = atoi(argv[5]);
+	info->init_time = time_diff(0);
+	info->all_satisfied = 0;
+	if (argc == 6 && ft_atoi(argv[5]) <= 0)
+		return (1);
+	else if (argc == 6)
+		info->number_of_meals = ft_atoi(argv[5]);
 	else
-		info->number_of_meals = 1;
+		info->number_of_meals = 0;
 	if (info->time_to_die < 0 || info->time_to_eat < 0
-		|| info->time_to_sleep < 0 || info->number_of_meals <= 0
-		|| info->number_of_philos < 2)
+		|| info->time_to_sleep < 0 || info->number_of_philos < 1)
 		return (1);
 	if (create_mutex(info) || create_philosophers(info))
 		return (1);

@@ -1,7 +1,7 @@
 NAME = philosophers
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-SRCS = actions.c main.c philosophers.c time.c initialize.c threads.c mutex.c
+SRCS = actions.c main.c philosophers.c time.c initialize.c threads.c mutex.c ft_atoi.c
 LIBFT = ./printf/libft/libft.a
 OBJS = $(SRCS:.c=.o)
 LIBFT_DIR = ./printf/libft/
